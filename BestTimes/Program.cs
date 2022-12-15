@@ -1,5 +1,7 @@
+using BestTimes.Data;
 using BestTimes.Repositories;
 using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IBestTimesRepository, BestTimesRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<BestTimes.Data.BestTimesContext, BestTimes.Data.BestTimesContext>();
-
 builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=BestTimes}/{action=Index}/{id?}");
 
 app.Run();

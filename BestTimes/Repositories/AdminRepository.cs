@@ -39,6 +39,7 @@ namespace BestTimes.Repositories
             db.BestTimes.Remove(bestTime);
             db.SaveChanges();
         }
+
         public void RemoveSuggestedTime(Models.PendingBestTimes pendingTime)
         {
             db.PendingBestTimes.Remove(pendingTime);
