@@ -11,7 +11,7 @@ builder.Services.AddScoped<IBestTimesRepository, BestTimesRepository>();
 builder.Services.AddScoped<IBestTimesService, BestTimesService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
-builder.Services.AddScoped<BestTimes.Data.BestTimesContext, BestTimes.Data.BestTimesContext>();
+builder.Services.AddScoped<BestTimesContext, BestTimesContext>();
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
