@@ -9,16 +9,17 @@ using BestTimes.Data;
 using BestTimes.Models;
 using BestTimes.Repositories;
 using System.Dynamic;
+using BestTimes.Service;
 
 namespace BestTimes.Controllers
 {
     public class PendingBestTimesController : Controller
     {
-        readonly IAdminRepository repo;
+        readonly IAdminService service;
 
-        public PendingBestTimesController(IAdminRepository repo)
+        public PendingBestTimesController(IAdminService service)
         {
-            this.repo = repo;
+            this.service = service;
         }
 
         [HttpGet]
@@ -47,26 +48,25 @@ namespace BestTimes.Controllers
         public async Task<IActionResult> SuccessPage()
         {
             ViewModel mymodel = new ViewModel();
-            mymodel.BestTimes = await repo.GetBestTimesAsync();
-            mymodel.PendingBestTimes = await repo.GetSuggestedTimesAsync();
+            mymodel.BestTimes = await service.GetBestTimesAsync();
+            mymodel.PendingBestTimes = await service.GetSuggestedTimesAsync();
             return View(mymodel);
         }
 
         public async Task<IActionResult> AcceptTime(int id)
         {
-            PendingBestTimes pendingTime = await repo.GetSuggestedTimeByIdAsync(id);
-            repo.AcceptSuggestedTimes(pendingTime);
+            PendingBestTimes pendingTime = await service.GetSuggestedTimeByIdAsync(id);
+            service.AcceptSuggestedTimes(pendingTime);
             return RedirectToAction("SuccessPage", "PendingBestTimes");
 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AcceptTime(int id, [Bind("Id,FirstName,LastName,Time")] PendingBestTimes pendingBestTimes)
+        public  IActionResult AcceptTime(int id, [Bind("Id,FirstName,LastName,Time")] PendingBestTimes pendingBestTimes)
         {
-            repo.AcceptSuggestedTimes(pendingBestTimes);
+            service.AcceptSuggestedTimes(pendingBestTimes);
             return RedirectToAction("SuccessPage", "PendingBestTimes");
-
         }
 
         public IActionResult Delete(int? id)
@@ -78,8 +78,8 @@ namespace BestTimes.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var time = await repo.GetBestTimeByIdAsync(id);
-            repo.RemoveTime(time);
+            var time = await service.GetBestTimeByIdAsync(id);
+            service.RemoveTime(time);
             return RedirectToAction("SuccessPage", "PendingBestTimes");
         }
 
@@ -92,8 +92,8 @@ namespace BestTimes.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteSuggestedTimeConfirmed(int id)
         {
-            var time = await repo.GetSuggestedTimeByIdAsync(id);
-            repo.RemoveSuggestedTime(time);
+            var time = await service.GetSuggestedTimeByIdAsync(id);
+            service.RemoveSuggestedTime(time);
             return RedirectToAction("SuccessPage", "PendingBestTimes");
         }
     }

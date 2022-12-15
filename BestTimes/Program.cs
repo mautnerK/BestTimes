@@ -1,5 +1,6 @@
 using BestTimes.Data;
 using BestTimes.Repositories;
+using BestTimes.Service;
 using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IBestTimesRepository, BestTimesRepository>();
+builder.Services.AddScoped<IBestTimesService, BestTimesService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<BestTimes.Data.BestTimesContext, BestTimes.Data.BestTimesContext>();
 builder.Services.AddControllersWithViews();

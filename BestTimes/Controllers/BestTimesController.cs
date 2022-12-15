@@ -8,21 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using BestTimes.Data;
 using BestTimes.Models;
 using BestTimes.Repositories;
+using BestTimes.Service;
 
 namespace BestTimes.Controllers
 {
     public class BestTimesController : Controller
     {
-        readonly IBestTimesRepository repo;
-        public BestTimesController(IBestTimesRepository repo)
+        readonly IBestTimesService service;
+        public BestTimesController(IBestTimesService service)
         {
-            this.repo = repo;
+            this.service = service;
         }
 
         // GET: BestTimes
         public async Task<IActionResult> Index()
         {
-              return View(await repo.GetBestTimesAsync());
+              return View(await service.GetBestTimesAsync());
         }
 
 
@@ -41,7 +42,7 @@ namespace BestTimes.Controllers
         {
             if (ModelState.IsValid)
             {
-                await repo.SuggestBestTimeAsync(bestTimes);
+                await service.SuggestBestTimeAsync(bestTimes);
                 return RedirectToAction(nameof(Index));
             }
             return View(bestTimes);
