@@ -47,7 +47,7 @@ namespace BestTimes.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Time")] PendingBestTimes pendingBestTimes)
+        public  IActionResult Edit(int id, [Bind("Id,FirstName,LastName,Time")] PendingBestTimes pendingBestTimes)
         {
             repo.AcceptSuggestedTimes(pendingBestTimes);
             return RedirectToAction("SuccessPage", "PendingBestTimes");

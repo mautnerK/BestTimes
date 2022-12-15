@@ -22,8 +22,8 @@ namespace BestTimes.Repositories
         {
             return await db.PendingBestTimes.ToListAsync();
         }
-
-         public void AcceptSuggestedTimes(PendingBestTimes pendingBestTime) {
+        public async Task<Models.BestTimes> GetBestTimeByIdAsync(int i) => await db.BestTimes.FindAsync(i);
+        public void AcceptSuggestedTimes(PendingBestTimes pendingBestTime) {
             Models.BestTimes bestTimes = new Models.BestTimes();
             bestTimes.FirstName = pendingBestTime.FirstName;
             bestTimes.LastName = pendingBestTime.LastName;
@@ -33,9 +33,16 @@ namespace BestTimes.Repositories
             db.SaveChanges();
         }
 
-        public async Task<PendingBestTimes> GetSuggestedTimeById(int i)
+        public async Task<PendingBestTimes> GetSuggestedTimeByIdAsync(int i) => await db.PendingBestTimes.FindAsync(i);
+        public void RemoveTime(Models.BestTimes bestTime)
         {
-            return await db.PendingBestTimes.FindAsync(i);
+            db.BestTimes.Remove(bestTime);
+            db.SaveChanges();
+        }
+        public void RemoveSuggestedTime(Models.PendingBestTimes pendingTime)
+        {
+            db.PendingBestTimes.Remove(pendingTime);
+            db.SaveChanges();
         }
     }
 }
